@@ -35,6 +35,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 /**
  * 
  * SeekArc.java
@@ -126,6 +128,7 @@ public class SeekArc extends View {
 	private double mTouchAngle;
 	private float mTouchIgnoreRadius;
 	private OnSeekArcChangeListener mOnSeekArcChangeListener;
+	private ArrayList<GradientStorage> drawerGradientWaitList = new ArrayList<>();
 
 	public interface OnSeekArcChangeListener {
 
@@ -248,16 +251,14 @@ public class SeekArc extends View {
 		mStartAngle = (mStartAngle > 360) ? 0 : mStartAngle;
 		mStartAngle = (mStartAngle < 0) ? 0 : mStartAngle;
 
-		mArcPaint = new Paint();
+		mArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mArcPaint.setColor(arcColor);
-		mArcPaint.setAntiAlias(true);
 		mArcPaint.setStyle(Paint.Style.STROKE);
 		mArcPaint.setStrokeWidth(mArcWidth);
 		//mArcPaint.setAlpha(45);
 
-		mProgressPaint = new Paint();
+		mProgressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mProgressPaint.setColor(progressColor);
-		mProgressPaint.setAntiAlias(true);
 		mProgressPaint.setStyle(Paint.Style.STROKE);
 		mProgressPaint.setStrokeWidth(mProgressWidth);
 
@@ -313,9 +314,22 @@ public class SeekArc extends View {
 		int arcStart = (int)mProgressSweep + mStartAngle  + mRotation + 90;
 		mThumbXPos = (int) (mArcRadius * Math.cos(Math.toRadians(arcStart)));
 		mThumbYPos = (int) (mArcRadius * Math.sin(Math.toRadians(arcStart)));
-		
+
 		setTouchInSide(mTouchInside);
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	}
+
+	@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		super.onLayout(changed, l, t, r, b);
+
+		float centerX = getWidth() / 2;
+		float centerY = getHeight() / 2;
+		for (GradientStorage gradientStorage: drawerGradientWaitList) {
+			int arcStart = mStartAngle + mAngleOffset + mRotation;
+			gradientStorage.setGradient(centerX, centerY, arcStart, mSweepAngle);
+		}
+		drawerGradientWaitList.clear();
 	}
 
 	@Override
@@ -575,6 +589,19 @@ public class SeekArc extends View {
 	public void setArcColor(int color) {
 		mArcPaint.setColor(color);
 		invalidate();
+	}
+
+	public void setArcGradient(int... colors) {
+		setGradient(mArcPaint, colors);
+	}
+
+	public void setProgressGradient(int... colors) {
+		setGradient(mProgressPaint, colors);
+	}
+
+	private void setGradient(Paint paint, int... colors) {
+		GradientStorage gradientStorage = new GradientStorage(paint, colors);
+		drawerGradientWaitList.add(gradientStorage);
 	}
 
 	public int getMax() {

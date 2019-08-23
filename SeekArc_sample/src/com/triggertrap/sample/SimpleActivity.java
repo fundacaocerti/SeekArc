@@ -42,17 +42,17 @@ import com.triggertrap.seekarc.SeekArc.OnSeekArcChangeListener;
  */
 public class SimpleActivity extends Activity {
 
-	private SeekArc mSeekArc;
-	private SeekBar mRotation;
-	private SeekBar mStartAngle;
-	private SeekBar mSweepAngle;
-	private SeekBar mArcWidth;
-	private SeekBar mProgressWidth;
-	private CheckBox mRoundedEdges;
-	private CheckBox mTouchInside;
-	private CheckBox mClockwise;
-	private TextView mSeekArcProgress;
-	private CheckBox mEnabled;
+	public SeekArc mSeekArc;
+	public SeekBar mRotation;
+	public SeekBar mStartAngle;
+	public SeekBar mSweepAngle;
+	public SeekBar mArcWidth;
+	public SeekBar mProgressWidth;
+	public CheckBox mRoundedEdges;
+	public CheckBox mTouchInside;
+	public CheckBox mClockwise;
+	public TextView mSeekArcProgress;
+	public CheckBox mEnabled;
 
 	protected int getLayoutFile(){
 		return R.layout.holo_sample;

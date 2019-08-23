@@ -57,14 +57,18 @@ public class MainActivity extends ListActivity {
 				startActivity(intent);
 				break;
 			case 1:
-				intent = new Intent(this, CustomActivity.class);
+				intent = new Intent(this, ColorActivity.class);
 				startActivity(intent);
 				break;
 			case 2:
-				intent = new Intent(this, ScrollViewActivity.class);
+				intent = new Intent(this, CustomActivity.class);
 				startActivity(intent);
 				break;
 			case 3:
+				intent = new Intent(this, ScrollViewActivity.class);
+				startActivity(intent);
+				break;
+			case 4:
 				intent = new Intent(this, DisabledActivity.class);
 				startActivity(intent);
 				break;
