@@ -21,7 +21,7 @@ public class GradientStorage {
     private Paint paint;
     private int[] colors;
 
-    public GradientStorage(Paint paint, int... colors) {
+    public GradientStorage(Paint paint, int[] colors) {
         this.paint = paint;
         this.colors = colors;
     }
