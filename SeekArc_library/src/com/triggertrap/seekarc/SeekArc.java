@@ -591,15 +591,15 @@ public class SeekArc extends View {
 		invalidate();
 	}
 
-	public void setArcGradient(int... colors) {
+	public void setArcGradient(int[] colors) {
 		setGradient(mArcPaint, colors);
 	}
 
-	public void setProgressGradient(int... colors) {
+	public void setProgressGradient(int[] colors) {
 		setGradient(mProgressPaint, colors);
 	}
 
-	private void setGradient(Paint paint, int... colors) {
+	private void setGradient(Paint paint, int[] colors) {
 		GradientStorage gradientStorage = new GradientStorage(paint, colors);
 		drawerGradientWaitList.add(gradientStorage);
 	}
