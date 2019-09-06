@@ -53,6 +53,7 @@ public class SimpleActivity extends Activity {
 	public CheckBox mClockwise;
 	public TextView mSeekArcProgress;
 	public CheckBox mEnabled;
+	public CheckBox mChangeColor;
 
 	protected int getLayoutFile(){
 		return R.layout.holo_sample;
@@ -74,6 +75,7 @@ public class SimpleActivity extends Activity {
 		mTouchInside = (CheckBox) findViewById(R.id.touchInside);
 		mClockwise = (CheckBox) findViewById(R.id.clockwise);
 		mEnabled = (CheckBox) findViewById(R.id.enabled);
+		mChangeColor = (CheckBox) findViewById(R.id.changeColor);
 
 		mRotation.setProgress(mSeekArc.getArcRotation());
 		mStartAngle.setProgress(mSeekArc.getStartAngle());
@@ -85,6 +87,13 @@ public class SimpleActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekArc seekArc) {
+				int thumbColor;
+				if(seekArc.getProgress() > 50) {
+					thumbColor = R.color.blaze_orange;
+				} else {
+					thumbColor = R.color.azure_radiance;
+				}
+				mSeekArc.setThumbColor(getResources().getColor(thumbColor));
 			}
 
 			@Override
@@ -207,6 +216,11 @@ public class SimpleActivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				mSeekArc.setEnabled(isChecked);
 				mSeekArc.invalidate();
+
+				if (mChangeColor.isChecked()) {
+					int color = getResources().getColor(isChecked ? R.color.progress_gray : R.color.dark_red);
+					mSeekArc.setArcColor(color);
+				}
 			}
 		});
 		

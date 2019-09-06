@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -195,6 +196,7 @@ public class SeekArc extends View {
 		int thumbHalfheight = 0;
 		int thumbHalfWidth = 0;
 		mThumb = res.getDrawable(R.drawable.seek_arc_control_selector);
+		mThumb.mutate().setColorFilter(progressColor, PorterDuff.Mode.MULTIPLY);
 		// Convert progress width to pixels for current density
 		mProgressWidth = (int) (mProgressWidth * density);
 
@@ -322,14 +324,7 @@ public class SeekArc extends View {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
-
-		float centerX = getWidth() / 2;
-		float centerY = getHeight() / 2;
-		for (GradientStorage gradientStorage: drawerGradientWaitList) {
-			int arcStart = mStartAngle + mAngleOffset + mRotation;
-			gradientStorage.setGradient(centerX, centerY, arcStart, mSweepAngle);
-		}
-		drawerGradientWaitList.clear();
+		executeDrawerGradientWaitList();
 	}
 
 	@Override
@@ -578,6 +573,7 @@ public class SeekArc extends View {
 	}
 
 	public void setProgressColor(int color) {
+		mArcPaint.setShader(null);
 		mProgressPaint.setColor(color);
 		invalidate();
 	}
@@ -587,6 +583,7 @@ public class SeekArc extends View {
 	}
 
 	public void setArcColor(int color) {
+		mArcPaint.setShader(null);
 		mArcPaint.setColor(color);
 		invalidate();
 	}
@@ -602,6 +599,20 @@ public class SeekArc extends View {
 	private void setGradient(Paint paint, int[] colors) {
 		GradientStorage gradientStorage = new GradientStorage(paint, colors);
 		drawerGradientWaitList.add(gradientStorage);
+
+		if (getWidth() > 0 && getHeight() > 0) {
+			executeDrawerGradientWaitList();
+		}
+	}
+
+	private void executeDrawerGradientWaitList() {
+		float centerX = getWidth() / 2;
+		float centerY = getHeight() / 2;
+		for (GradientStorage gradientStorage: drawerGradientWaitList) {
+			int arcStart = mStartAngle + mAngleOffset + mRotation;
+			gradientStorage.setGradient(centerX, centerY, arcStart, mSweepAngle);
+		}
+		drawerGradientWaitList.clear();
 	}
 
 	public int getMax() {
@@ -610,5 +621,18 @@ public class SeekArc extends View {
 
 	public void setMax(int mMax) {
 		this.mMax = mMax;
+	}
+
+	public Drawable getThumb(){
+		return mThumb;
+	}
+
+	public void setThumb(Drawable thumb){
+		this.mThumb = thumb;
+	}
+
+	public void setThumbColor(int color) {
+		mThumb.mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+		invalidate();
 	}
 }

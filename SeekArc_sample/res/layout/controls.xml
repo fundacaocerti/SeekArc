@@ -143,7 +143,7 @@
 
         <CheckBox
             android:id="@+id/clockwise"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true" />
     </LinearLayout>
@@ -161,7 +161,7 @@
 
         <CheckBox
             android:id="@+id/touchInside"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true" />
     </LinearLayout>
@@ -179,7 +179,19 @@
 
         <CheckBox
             android:id="@+id/enabled"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Change Color:" />
+
+        <CheckBox
+            android:id="@+id/changeColor"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true" />
     </LinearLayout>
