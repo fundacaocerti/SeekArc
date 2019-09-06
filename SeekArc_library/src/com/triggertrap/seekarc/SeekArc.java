@@ -28,6 +28,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -195,6 +196,7 @@ public class SeekArc extends View {
 		int thumbHalfheight = 0;
 		int thumbHalfWidth = 0;
 		mThumb = res.getDrawable(R.drawable.seek_arc_control_selector);
+		mThumb.mutate().setColorFilter(progressColor, PorterDuff.Mode.MULTIPLY);
 		// Convert progress width to pixels for current density
 		mProgressWidth = (int) (mProgressWidth * density);
 
@@ -627,5 +629,10 @@ public class SeekArc extends View {
 
 	public void setThumb(Drawable thumb){
 		this.mThumb = thumb;
+	}
+
+	public void setThumbColor(int color) {
+		mThumb.mutate().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+		invalidate();
 	}
 }

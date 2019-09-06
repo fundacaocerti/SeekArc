@@ -87,6 +87,13 @@ public class SimpleActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekArc seekArc) {
+				int thumbColor;
+				if(seekArc.getProgress() > 50) {
+					thumbColor = R.color.blaze_orange;
+				} else {
+					thumbColor = R.color.azure_radiance;
+				}
+				mSeekArc.setThumbColor(getResources().getColor(thumbColor));
 			}
 
 			@Override

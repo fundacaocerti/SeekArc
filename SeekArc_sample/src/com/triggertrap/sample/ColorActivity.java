@@ -43,7 +43,6 @@ public class ColorActivity extends SimpleActivity {
 						mSeekArc.setArcGradient(getResources().getIntArray(R.array.arc_gradient_colors));
 					} else {
 						mSeekArc.setArcColor(getResources().getColor(R.color.progress_gray));
-						//mSeekArc.setArcGradient(getResources().getIntArray(R.array.progress_gradient_colors));
 					}
 				}
 			}
