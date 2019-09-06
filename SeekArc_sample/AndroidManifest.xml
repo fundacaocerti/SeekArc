@@ -48,7 +48,7 @@
 
         <activity
             android:name="com.triggertrap.sample.ColorActivity"
-            android:label="@string/title_activity_simple" >
+            android:label="@string/title_activity_color" >
         </activity>
 
         <activity

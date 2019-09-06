@@ -6,6 +6,7 @@
 package com.triggertrap.sample;
 
 import android.os.Bundle;
+import android.widget.CompoundButton;
 
 /**
  * 
@@ -30,6 +31,23 @@ public class ColorActivity extends SimpleActivity {
 
 		mSeekArc.setArcGradient(getResources().getIntArray(R.array.arc_gradient_colors));
 		mSeekArc.setProgressGradient(getResources().getIntArray(R.array.progress_gradient_colors));
+
+		mEnabled.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				mSeekArc.setEnabled(isChecked);
+				mSeekArc.invalidate();
+
+				if (mChangeColor.isChecked()) {
+					if(isChecked) {
+						mSeekArc.setArcGradient(getResources().getIntArray(R.array.arc_gradient_colors));
+					} else {
+						mSeekArc.setArcColor(getResources().getColor(R.color.progress_gray));
+						//mSeekArc.setArcGradient(getResources().getIntArray(R.array.progress_gradient_colors));
+					}
+				}
+			}
+		});
 	}
 	
 }

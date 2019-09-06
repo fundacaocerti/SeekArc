@@ -322,14 +322,7 @@ public class SeekArc extends View {
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
 		super.onLayout(changed, l, t, r, b);
-
-		float centerX = getWidth() / 2;
-		float centerY = getHeight() / 2;
-		for (GradientStorage gradientStorage: drawerGradientWaitList) {
-			int arcStart = mStartAngle + mAngleOffset + mRotation;
-			gradientStorage.setGradient(centerX, centerY, arcStart, mSweepAngle);
-		}
-		drawerGradientWaitList.clear();
+		executeDrawerGradientWaitList();
 	}
 
 	@Override
@@ -578,6 +571,7 @@ public class SeekArc extends View {
 	}
 
 	public void setProgressColor(int color) {
+		mArcPaint.setShader(null);
 		mProgressPaint.setColor(color);
 		invalidate();
 	}
@@ -587,6 +581,7 @@ public class SeekArc extends View {
 	}
 
 	public void setArcColor(int color) {
+		mArcPaint.setShader(null);
 		mArcPaint.setColor(color);
 		invalidate();
 	}
@@ -602,6 +597,20 @@ public class SeekArc extends View {
 	private void setGradient(Paint paint, int[] colors) {
 		GradientStorage gradientStorage = new GradientStorage(paint, colors);
 		drawerGradientWaitList.add(gradientStorage);
+
+		if (getWidth() > 0 && getHeight() > 0) {
+			executeDrawerGradientWaitList();
+		}
+	}
+
+	private void executeDrawerGradientWaitList() {
+		float centerX = getWidth() / 2;
+		float centerY = getHeight() / 2;
+		for (GradientStorage gradientStorage: drawerGradientWaitList) {
+			int arcStart = mStartAngle + mAngleOffset + mRotation;
+			gradientStorage.setGradient(centerX, centerY, arcStart, mSweepAngle);
+		}
+		drawerGradientWaitList.clear();
 	}
 
 	public int getMax() {
